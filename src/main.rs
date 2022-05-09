@@ -25,6 +25,9 @@ struct Args {
 
 	#[clap(long)]
 	autocommit: bool,
+
+	#[clap(long)]
+	require_field_to_remove: bool,
 }
 
 fn main() -> Result<()> {
@@ -105,27 +108,29 @@ fn main() -> Result<()> {
 				}
 
 				if matches_target_git {
-					if has_field_to_remove {
-						if let Some(pkg) = pkgs_in_lockfile.iter().find(|pkg| {
-							pkg.starts_with(&format!("{}:", dependency_name))
-						}) {
-							dependencies_to_update.insert(pkg.to_string());
+					if let Some(pkg) = pkgs_in_lockfile.iter().find(|pkg| {
+						pkg.starts_with(&format!("{}:", dependency_name))
+					}) {
+						dependencies_to_update.insert(pkg);
+
+						new_cargo_toml[top_level_key][dependency_name]
+							[&args.add_field] = value(args.added_field_value.clone());
+
+						if has_field_to_remove {
 							new_cargo_toml[top_level_key][dependency_name]
 								.as_table_like_mut()
 								.unwrap()
 								.remove(&args.remove_field);
-							new_cargo_toml[top_level_key][dependency_name]
-								[&args.add_field] = value(args.added_field_value.clone());
+						} else if args.require_field_to_remove {
+							return Err(anyhow!(
+									"Expected [{:?}][{:?}] to have a \"{}\" key in \"{:?}\"",
+									top_level_key,
+									dependency_name,
+									args.remove_field,
+									cargo_toml_path
+								));
 						}
-					} else {
-						return Err(anyhow!(
-								"Expected [{:?}][{:?}] to have a \"{}\" key in \"{:?}\"",
-								top_level_key,
-								dependency_name,
-								args.remove_field,
-								cargo_toml_path
-							));
-					}
+					};
 				}
 			}
 		}
