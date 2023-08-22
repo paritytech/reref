@@ -1,13 +1,13 @@
 [package]
 name = "reref"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 authors = ["Parity Technologies <admin@parity.io>"]
 license = "Apache-2.0"
 
 [dependencies]
-walkdir = "2.3.2"
-anyhow = "1.0.57"
-toml_edit = "0.14.3"
-clap = { version = "3.1.17", features = ["derive"] }
-cargo-lock = "7.1.0"
+walkdir = "2.3"
+anyhow = "1.0"
+toml_edit = "0.19"
+clap = { version = "4", features = ["derive", "env", "unicode", "cargo"] }
+cargo-lock = "9"
