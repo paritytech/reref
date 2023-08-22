@@ -3,7 +3,8 @@ name = "reref"
 version = "0.2.0"
 edition = "2021"
 authors = ["Parity Technologies <admin@parity.io>"]
-license = "Apache-2.0"
+license-file = "LICENSE"
+description = "A tool for transforming the dependencies fields on all Cargo.toml in a given project"
 
 [dependencies]
 walkdir = "2.3"
