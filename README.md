@@ -1,13 +1,19 @@
-# TOC
+## TOC
 
 - [Installation](#installation)
 - [Explanation](#explanation)
 
-# Installation <a name="installation"></a>
+## Installation <a name="installation"></a>
+
+### From Crates.io
+
+`cargo install reref`
+
+### From Github
 
 `cargo install reref --git https://github.com/paritytech/reref`
 
-# Explanation <a name="explanation"></a>
+## Explanation <a name="explanation"></a>
 
 `reref` is a tool for transforming dependencies fields' on all `Cargo.toml` in a
 given project.
